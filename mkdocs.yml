@@ -1,0 +1,79 @@
+site_name: Fusion Engine Docs
+site_description: Python scripting API reference and guides for Fusion Engine
+site_url: https://devphusion.github.io/FusionEngine/
+repo_url: https://github.com/DevPhusion/FusionEngine
+repo_name: DevPhusion/FusionEngine
+
+docs_dir: docs
+
+theme:
+  name: material
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Scripting Guide: scripting-guide.md
+  - API Reference:
+      - Overview: api/index.md
+      - Math (Vector2/3/4): api/math.md
+      - Object: api/object.md
+      - Components:
+          - RenderComponent: api/render-component.md
+          - TransformComponent: api/transform-component.md
+          - RigidBodyComponent: api/rigidbody-component.md
+          - CollisionComponent: api/collision-component.md
+          - SoftBodyComponent: api/softbody-component.md
+          - FluidComponent: api/fluid-component.md
+          - ConstraintComponent: api/constraint-component.md
+          - FractureComponent: api/fracture-component.md
+          - CameraComponent: api/camera-component.md
+          - AgentComponent (RL): api/agent-component.md
+      - Physics & Constraints: api/physics.md
+      - Input: api/input.md
+      - Console: api/console.md
+      - File: api/file.md
+      - Render (debug draw): api/render-module.md
+      - Scene: api/scene.md
+      - Export markers: api/export.md
+      - Reinforcement Learning: api/rl.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          # Point Griffe at the folder containing the .pyi stub instead of
+          # trying to `import fusion` (which needs a live engine/GL context
+          # and will never work in a docs build environment).
+          paths: [docs/stubs]
+          options:
+            docstring_style: google
+            show_source: false
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: source
+            merge_init_into_class: true
+            separate_signature: true
+            show_signature_annotations: true
+            # Never let Griffe fall back to importing the compiled module.
+            allow_inspection: false

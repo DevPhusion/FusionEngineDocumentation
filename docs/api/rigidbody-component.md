@@ -1,0 +1,3 @@
+# RigidBodyComponent
+
+::: fusion.RigidBodyComponent

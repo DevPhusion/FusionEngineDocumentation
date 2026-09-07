@@ -1,0 +1,3 @@
+# RenderComponent
+
+::: fusion.RenderComponent
