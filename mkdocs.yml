@@ -24,6 +24,7 @@ nav:
   - Home: index.md
   - Getting Started: getting-started.md
   - Scripting Guide: scripting-guide.md
+  - Design Document: https://github.com/DevPhusion/FusionEngine/blob/master/Fusion_Engine_Design_Document.pdf
   - API Reference:
       - Overview: api/index.md
       - Math (Vector2/3/4): api/math.md

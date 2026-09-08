@@ -1,0 +1,15 @@
+# Virtual Environments
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+
+# Local MkDocs Build Output
+site/
+
+# IDE & OS Files
+.vscode/
+.DS_Store
+Thumbs.db
