@@ -76,5 +76,6 @@ plugins:
             merge_init_into_class: true
             separate_signature: true
             show_signature_annotations: true
+            show_if_no_docstring: true
             # Never let Griffe fall back to importing the compiled module.
             allow_inspection: false
