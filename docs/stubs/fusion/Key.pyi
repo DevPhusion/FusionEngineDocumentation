@@ -1,5 +1,5 @@
 """
-Common GLFW key codes
+Common GLFW key codes. Attributes are plain ints, e.g. Key.SPACE, Key.A .. Key.Z, Key.NUM_0 .. Key.NUM_9, usable anywhere an int key code is expected.
 """
 from __future__ import annotations
 __all__: list[str] = ['A', 'B', 'C', 'D', 'DOWN', 'E', 'ENTER', 'ESCAPE', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'LEFT', 'LEFT_ALT', 'LEFT_CONTROL', 'LEFT_SHIFT', 'M', 'N', 'NUM_0', 'NUM_1', 'NUM_2', 'NUM_3', 'NUM_4', 'NUM_5', 'NUM_6', 'NUM_7', 'NUM_8', 'NUM_9', 'O', 'P', 'Q', 'R', 'RIGHT', 'S', 'SPACE', 'T', 'U', 'UP', 'V', 'W', 'X', 'Y', 'Z']

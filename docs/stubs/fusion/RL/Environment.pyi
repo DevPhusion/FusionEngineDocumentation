@@ -5,8 +5,8 @@ from __future__ import annotations
 import fusion as fusion
 import gymnasium as gym
 import gymnasium.core
-import numpy
 import numpy as np
+import numpy
 import numpy.typing
 import os as os
 from stable_baselines3.a2c.a2c import A2C
@@ -53,9 +53,13 @@ def get_observation_space() -> typing.Any:
     """
 def get_snapshot(width: typing.SupportsInt | typing.SupportsIndex = 128, height: typing.SupportsInt | typing.SupportsIndex = 128) -> numpy.typing.NDArray[numpy.uint8]:
     """
-    Render the scene off-screen (works even during headless training) and return it as an (height, width, 3) uint8 RGB array, e.g.
-      frame = fusionRL.Environment.get_snapshot(84, 84)
-      self.agent.add_observation((frame.astype('float32') / 255.0).flatten().tolist())
+    Render the scene off-screen (works even during headless training) and return it as an (height, width, 3) uint8 RGB array.
+    
+    Example:
+        ```python
+        frame = fusionRL.Environment.get_snapshot(84, 84)
+        self.agent.add_observation((frame.astype('float32') / 255.0).flatten().tolist())
+        ```
     """
 def load_model(path, algorithm = 'PPO'):
     ...
