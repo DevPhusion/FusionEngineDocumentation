@@ -10,13 +10,15 @@ this reference stays in sync with the engine without hand-copying anything.
 |---|---|
 | [RenderComponent](render-component.md) | Shape, color, texture, z-index |
 | [TransformComponent](transform-component.md) | Position, rotation, scale |
-| [RigidBodyComponent](rigidbody-component.md) | Velocity, mass, forces |
+| [RigidBodyComponent](rigidbody-component.md) | Rigid body simulation |
 | [CollisionComponent](collision-component.md) | Collision shapes, layers, callbacks |
 | [SoftBodyComponent](softbody-component.md) | XPBD soft body simulation |
-| [FluidComponent](fluid-component.md) | Position Based Fluids |
+| [FluidComponent](fluid-component.md) | PBF fluid simulation |
+| [GasComponent](gas-component.md) | PBF extended for gas simulation |
 | [ConstraintComponent](constraint-component.md) | Joints between objects |
 | [FractureComponent](fracture-component.md) | Voronoi fracture on impact |
 | [CameraComponent](camera-component.md) | Camera range, main camera |
+| [AudioComponent](audio-component.md) | Audio, SFX |
 | [AgentComponent](agent-component.md) | RL observations/rewards/actions |
 
 ## Other modules
