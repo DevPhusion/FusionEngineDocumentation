@@ -10,7 +10,7 @@ from . import Mouse
 from . import Physics
 from . import RL
 from . import Render
-__all__: list[str] = ['AgentComponent', 'CameraComponent', 'CircleShape', 'CollisionComponent', 'CollisionEventData', 'CollisionLayer', 'CollisionMask', 'CollisionType', 'Console', 'Constraint', 'ConstraintComponent', 'DistanceConstraint', 'File', 'FluidComponent', 'FluidParticle', 'FluidVsRigid', 'FluidVsSoft', 'FractureComponent', 'Input', 'Key', 'Mouse', 'Object', 'Physics', 'PointMass', 'PolygonShape', 'PrismaticConstraint', 'RL', 'RayCastHit', 'RectangleShape', 'Render', 'RenderComponent', 'RevoluteConstraint', 'RigidBodyComponent', 'RigidVsRigid', 'RigidVsSoft', 'RigidVsStatic', 'Script', 'SoftBodyComponent', 'SoftVsSoft', 'SpringConstraint', 'StaticVsStatic', 'TransformComponent', 'Vector2', 'Vector3', 'Vector4', 'WeldConstraint', 'add_scene', 'export', 'export_angle_slider', 'export_color_edit', 'export_color_picker', 'export_drag', 'export_file', 'export_range', 'export_scene', 'export_section', 'export_sub_section', 'find_objects_with_component', 'get_all_objects', 'get_script', 'layer_overlap', 'lerp', 'load_scene']
+__all__: list[str] = ['AgentComponent', 'AudioComponent', 'CameraComponent', 'CircleShape', 'CollisionComponent', 'CollisionEventData', 'CollisionLayer', 'CollisionMask', 'CollisionType', 'Console', 'Constraint', 'ConstraintComponent', 'DistanceConstraint', 'File', 'FluidComponent', 'FluidParticle', 'FluidVsRigid', 'FluidVsSoft', 'FractureComponent', 'GasComponent', 'GasParticle', 'GasVsRigid', 'GasVsSoft', 'Input', 'Key', 'MotorMode', 'Mouse', 'Object', 'Physics', 'PointMass', 'PolygonShape', 'PrismaticConstraint', 'RL', 'RayCastHit', 'RectangleShape', 'Render', 'RenderComponent', 'RevoluteConstraint', 'RigidBodyComponent', 'RigidVsRigid', 'RigidVsSoft', 'RigidVsStatic', 'Script', 'SoftBodyComponent', 'SoftVsSoft', 'SpringConstraint', 'StaticVsStatic', 'TransformComponent', 'Vector2', 'Vector3', 'Vector4', 'WeldConstraint', 'add_scene', 'export', 'export_angle_slider', 'export_color_edit', 'export_color_picker', 'export_drag', 'export_file', 'export_range', 'export_scene', 'export_section', 'export_sub_section', 'find_objects_with_component', 'get_all_objects', 'get_script', 'layer_overlap', 'lerp', 'load_scene']
 class AgentComponent:
     def add_child(self, obj: Object) -> Object:
         """
@@ -127,6 +127,144 @@ class AgentComponent:
         """
         The gymnasium.spaces.Space configured via set_observation_space(), or None if unset
         """
+    @property
+    def owner(self) -> Object:
+        """
+        The Object that owns this component
+        """
+class AudioComponent:
+    def add_child(self, obj: Object) -> Object:
+        """
+        Add obj as a child of this component's owning Object
+        """
+    def add_component(self, component_class: typing.Any) -> typing.Any:
+        """
+        Attach a new component of the given type to this component's owning Object.
+        
+        Example:
+            ```python
+            render = self.add_component(RenderComponent)
+            ```
+        """
+    def add_object(self, obj: Object, parent: Object = None) -> Object:
+        """
+        Add a newly created Object to the scene, optionally parented to another Object
+        """
+    def add_track(self, name: str = '', path: str = '', streaming: bool = False, loop: bool = False, volume: typing.SupportsFloat | typing.SupportsIndex = 1.0) -> str:
+        """
+        Add a new audio track and return its actual name. If name collides with an existing track, a numeric suffix is appended to keep it unique, so check the returned value rather than assuming it matches what you passed in.
+        
+        Example:
+            ```python
+            track = audio.add_track('Footstep', 'res://sfx/step.wav')
+            audio.play(track)
+            ```
+        """
+    def get_audio_path(self, name: str) -> str:
+        """
+        res:// path to the track's audio file
+        """
+    def get_component(self, component_class: typing.Any) -> typing.Any:
+        """
+        Look up a component on this Object
+        """
+    def get_is_playing(self, name: str) -> bool:
+        """
+        Whether the given track is currently playing
+        """
+    def get_loop(self, name: str) -> bool:
+        """
+        Whether the given track loops when it reaches the end
+        """
+    def get_owner(self) -> Object:
+        """
+        The Object that owns this component
+        """
+    def get_streaming(self, name: str) -> bool:
+        """
+        Whether the given track streams from disk rather than being fully decoded into memory
+        """
+    def get_track_names(self) -> list[str]:
+        """
+        Names of every audio track on this component
+        """
+    def get_volume(self, name: str) -> float:
+        """
+        Playback volume of the given track
+        """
+    def has_component(self, component_class: typing.Any) -> bool:
+        """
+        Check whether this component's owning Object has a component of the given type
+        """
+    def pause(self, name: str) -> None:
+        """
+        Pause playback of the track with the given name
+        """
+    def play(self, name: str) -> None:
+        """
+        Start (or resume) playback of the track with the given name.
+        
+        Example:
+            ```python
+            audio.play('Footstep')
+            ```
+        """
+    def remove_component(self, component_class: typing.Any) -> None:
+        """
+        Remove a component of the given type from this component's owning Object
+        """
+    def remove_object(self, obj: Object) -> None:
+        """
+        Remove an object from the scene
+        """
+    def remove_track(self, name: str) -> None:
+        """
+        Remove the track with the given name
+        """
+    def set_audio_path(self, name: str, path: str) -> None:
+        """
+        Set the audio file (a res:// path) for the given track. (Re)loads the sound immediately using its current streaming/loop settings.
+        """
+    def set_enable(self, enable: bool) -> None:
+        """
+        Set enable. See the enable property.
+        """
+    def set_listener(self, listener: bool) -> None:
+        """
+        Set listener. See the listener property.
+        """
+    def set_loop(self, name: str, loop: bool) -> None:
+        """
+        Set loop for the given track. Reloads the sound if a path is set.
+        """
+    def set_streaming(self, name: str, streaming: bool) -> None:
+        """
+        Set streaming for the given track. Reloads the sound if a path is set.
+        """
+    def set_volume(self, name: str, volume: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set volume for the given track. Only takes effect once the track's sound is loaded.
+        """
+    def stop(self, name: str) -> None:
+        """
+        Stop playback of the track with the given name
+        """
+    @property
+    def enable(self) -> bool:
+        """
+        Whether this component is active. Disabling unloads every track's sound.
+        """
+    @enable.setter
+    def enable(self, arg1: bool) -> None:
+        ...
+    @property
+    def listener(self) -> bool:
+        """
+        Whether this component is the scene's active audio listener. Setting this to True unsets listener on any other AudioComponent in the scene.
+        """
+    @listener.setter
+    def listener(self, arg1: bool) -> None:
+        ...
     @property
     def owner(self) -> Object:
         """
@@ -710,15 +848,21 @@ class CollisionType:
       FluidVsRigid
     
       FluidVsSoft
+    
+      GasVsRigid
+    
+      GasVsSoft
     """
     FluidVsRigid: typing.ClassVar[CollisionType]  # value = <CollisionType.FluidVsRigid: 5>
     FluidVsSoft: typing.ClassVar[CollisionType]  # value = <CollisionType.FluidVsSoft: 6>
+    GasVsRigid: typing.ClassVar[CollisionType]  # value = <CollisionType.GasVsRigid: 7>
+    GasVsSoft: typing.ClassVar[CollisionType]  # value = <CollisionType.GasVsSoft: 8>
     RigidVsRigid: typing.ClassVar[CollisionType]  # value = <CollisionType.RigidVsRigid: 0>
     RigidVsSoft: typing.ClassVar[CollisionType]  # value = <CollisionType.RigidVsSoft: 3>
     RigidVsStatic: typing.ClassVar[CollisionType]  # value = <CollisionType.RigidVsStatic: 1>
     SoftVsSoft: typing.ClassVar[CollisionType]  # value = <CollisionType.SoftVsSoft: 4>
     StaticVsStatic: typing.ClassVar[CollisionType]  # value = <CollisionType.StaticVsStatic: 2>
-    __members__: typing.ClassVar[dict[str, CollisionType]]  # value = {'RigidVsRigid': <CollisionType.RigidVsRigid: 0>, 'RigidVsStatic': <CollisionType.RigidVsStatic: 1>, 'StaticVsStatic': <CollisionType.StaticVsStatic: 2>, 'RigidVsSoft': <CollisionType.RigidVsSoft: 3>, 'SoftVsSoft': <CollisionType.SoftVsSoft: 4>, 'FluidVsRigid': <CollisionType.FluidVsRigid: 5>, 'FluidVsSoft': <CollisionType.FluidVsSoft: 6>}
+    __members__: typing.ClassVar[dict[str, CollisionType]]  # value = {'RigidVsRigid': <CollisionType.RigidVsRigid: 0>, 'RigidVsStatic': <CollisionType.RigidVsStatic: 1>, 'StaticVsStatic': <CollisionType.StaticVsStatic: 2>, 'RigidVsSoft': <CollisionType.RigidVsSoft: 3>, 'SoftVsSoft': <CollisionType.SoftVsSoft: 4>, 'FluidVsRigid': <CollisionType.FluidVsRigid: 5>, 'FluidVsSoft': <CollisionType.FluidVsSoft: 6>, 'GasVsRigid': <CollisionType.GasVsRigid: 7>, 'GasVsSoft': <CollisionType.GasVsSoft: 8>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __getstate__(self) -> int:
@@ -1558,6 +1702,787 @@ class FractureComponent:
     @shard_count.setter
     def shard_count(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
+class GasComponent:
+    def add_child(self, obj: Object) -> Object:
+        """
+        Add obj as a child of this component's owning Object
+        """
+    def add_component(self, component_class: typing.Any) -> typing.Any:
+        """
+        Attach a new component of the given type to this component's owning Object.
+        
+        Example:
+            ```python
+            render = self.add_component(RenderComponent)
+            ```
+        """
+    def add_object(self, obj: Object, parent: Object = None) -> Object:
+        """
+        Add a newly created Object to the scene, optionally parented to another Object
+        """
+    @typing.overload
+    def add_particle(self, world_position: Vector3) -> GasParticle:
+        """
+        Add a single gas particle at the given world position.
+        
+        Example:
+            ```python
+            p = gas.add_particle(Vector3(0, 2, 0))
+            ```
+        """
+    @typing.overload
+    def add_particle(self, shape: fusion.PolygonShape | fusion.RectangleShape | fusion.CircleShape, particle_count: typing.SupportsInt | typing.SupportsIndex) -> list[GasParticle]:
+        """
+        Seed roughly particle_count particles filling the given shape and add them to the gas.
+        
+        Example:
+            ```python
+            gas.add_particle(CircleShape(Vector3(0, 3, 0), 1.5), 200)
+            ```
+        """
+    def get_component(self, component_class: typing.Any) -> typing.Any:
+        """
+        Look up a component on this Object
+        """
+    def get_owner(self) -> Object:
+        """
+        The Object that owns this component
+        """
+    def get_particle(self, index: typing.SupportsInt | typing.SupportsIndex) -> GasParticle:
+        """
+        Get a particle by index
+        """
+    def has_component(self, component_class: typing.Any) -> bool:
+        """
+        Check whether this component's owning Object has a component of the given type
+        """
+    def remove_component(self, component_class: typing.Any) -> None:
+        """
+        Remove a component of the given type from this component's owning Object
+        """
+    def remove_object(self, obj: Object) -> None:
+        """
+        Remove an object from the scene
+        """
+    def remove_particle(self, particle: GasParticle) -> None:
+        """
+        Remove and delete a specific GasParticle previously returned by add_particle(), particles, or get_particle()
+        """
+    def reseed(self) -> None:
+        """
+        Discard all particles (including manually added ones and wisps) and re-fill the shape according to desired_particle_count
+        """
+    def set_ambient_temperature(self, ambient_temperature: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set ambient_temperature. See the ambient_temperature property.
+        """
+    def set_can_dissipate(self, can_dissipate: bool) -> None:
+        """
+        Set can_dissipate. See the can_dissipate property.
+        """
+    def set_collision_radius(self, collision_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set collision_radius. See the collision_radius property.
+        """
+    def set_color(self, color: Vector4) -> None:
+        """
+        Set color. See the color property.
+        """
+    def set_cooling_rate(self, cooling_rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set cooling_rate. See the cooling_rate property.
+        """
+    def set_desired_particle_count(self, desired_particle_count: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Changing this re-seeds the whole gas on its source shape, discarding any particles added individually via add_particle()
+        """
+    @typing.overload
+    def set_dissipation_rate(self, dissipation_rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set dissipation_rate. See the dissipation_rate property.
+        """
+    @typing.overload
+    def set_dissipation_rate(self, dissipation_rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set dissipation_rate. See the dissipation_rate property.
+        """
+    def set_dissipation_spread(self, dissipation_spread: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set dissipation_spread. See the dissipation_spread property.
+        """
+    def set_emit_wisps_on_dissipate(self, emit_wisps_on_dissipate: bool) -> None:
+        """
+        Set emit_wisps_on_dissipate. See the emit_wisps_on_dissipate property.
+        """
+    def set_enable(self, enable: bool) -> None:
+        """
+        Set enable. See the enable property.
+        """
+    def set_epsilon(self, epsilon: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set epsilon. See the epsilon property.
+        """
+    def set_gamma(self, gamma: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set gamma. See the gamma property.
+        """
+    def set_initial_temperature(self, initial_temperature: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set initial_temperature. See the initial_temperature property.
+        """
+    def set_max_dissipation_generations(self, max_dissipation_generations: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Set max_dissipation_generations. See the max_dissipation_generations property.
+        """
+    def set_max_dissipation_speed(self, max_dissipation_speed: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set max_dissipation_speed. See the max_dissipation_speed property.
+        """
+    def set_metaball_edge_soft(self, metaball_edge_soft: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set metaball_edge_soft. See the metaball_edge_soft property.
+        """
+    def set_metaball_threshold(self, metaball_threshold: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set metaball_threshold. See the metaball_threshold property.
+        """
+    def set_min_radius(self, min_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set min_radius. See the min_radius property.
+        """
+    def set_noise_scale(self, noise_scale: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set noise_scale. See the noise_scale property.
+        """
+    def set_noise_strength(self, noise_strength: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set noise_strength. See the noise_strength property.
+        """
+    def set_outline_color(self, outline_color: Vector4) -> None:
+        """
+        Set outline_color. See the outline_color property.
+        """
+    def set_outline_width_texels(self, outline_width_texels: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set outline_width_texels. See the outline_width_texels property.
+        """
+    def set_particle_mass(self, particle_mass: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set particle_mass. See the particle_mass property.
+        """
+    def set_particle_radius(self, particle_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set particle_radius. See the particle_radius property.
+        """
+    def set_rest_density(self, rest_density: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set rest_density. See the rest_density property.
+        """
+    def set_rise_speed(self, rise_speed: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set rise_speed. See the rise_speed property.
+        """
+    def set_smoothing_radius(self, smoothing_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set smoothing_radius. See the smoothing_radius property.
+        """
+    def set_stiffness(self, stiffness: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set stiffness. See the stiffness property.
+        """
+    def set_thermal_diffusivity(self, thermal_diffusivity: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set thermal_diffusivity. See the thermal_diffusivity property.
+        """
+    def set_viscosity(self, viscosity: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set viscosity. See the viscosity property.
+        """
+    def set_vorticity_strength(self, vorticity_strength: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set vorticity_strength. See the vorticity_strength property.
+        """
+    def set_wisp_count_per_split(self, wisp_count_per_split: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Set wisp_count_per_split. See the wisp_count_per_split property.
+        """
+    def set_wisp_split_threshold(self, wisp_split_threshold: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set wisp_split_threshold. See the wisp_split_threshold property.
+        """
+    def update_collision_layer_mask(self) -> None:
+        """
+        Sync every particle's collision_layer/collision_mask with this Object's CollisionComponent
+        """
+    @property
+    def ambient_temperature(self) -> float:
+        """
+        Temperature particles cool/warm toward over time
+        """
+    @ambient_temperature.setter
+    def ambient_temperature(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def can_dissipate(self) -> bool:
+        """
+        Whether particles shrink and fade away over time. Applies to all current particles. When False, the other dissipation/wisp settings are ignored.
+        """
+    @can_dissipate.setter
+    def can_dissipate(self, arg1: bool) -> None:
+        ...
+    @property
+    def collision_radius(self) -> float:
+        """
+        Physical collision radius applied to every particle. Clamped to a small positive minimum. Distinct from particle_radius, which is purely visual.
+        """
+    @collision_radius.setter
+    def collision_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def color(self) -> Vector4:
+        """
+        Core fill color (RGBA, 0-1) of the rendered gas
+        """
+    @color.setter
+    def color(self, arg1: Vector4) -> None:
+        ...
+    @property
+    def cooling_rate(self) -> float:
+        """
+        How quickly particles cool toward ambient_temperature
+        """
+    @cooling_rate.setter
+    def cooling_rate(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def desired_particle_count(self) -> int:
+        """
+        Number of particles to seed when filling the source shape. Changing this re-seeds the whole gas, discarding any particles added individually via add_particle().
+        """
+    @desired_particle_count.setter
+    def desired_particle_count(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def dissipation_rate(self) -> float:
+        """
+        Exponential rate at which each particle's radius scale decays per second (only when can_dissipate is True). Clamped to >= 0.
+        """
+    @dissipation_rate.setter
+    def dissipation_rate(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def dissipation_spread(self) -> float:
+        """
+        How strongly dissipating particles drift outward along a random direction as they shrink. Clamped to >= 0.
+        """
+    @dissipation_spread.setter
+    def dissipation_spread(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def emit_wisps_on_dissipate(self) -> bool:
+        """
+        Whether a dissipating particle splits into smaller visual-only wisps once it shrinks past wisp_split_threshold
+        """
+    @emit_wisps_on_dissipate.setter
+    def emit_wisps_on_dissipate(self, arg1: bool) -> None:
+        ...
+    @property
+    def enable(self) -> bool:
+        """
+        Whether this component is active
+        """
+    @enable.setter
+    def enable(self, arg1: bool) -> None:
+        ...
+    @property
+    def epsilon(self) -> float:
+        """
+        Relaxation parameter (CFM) for the position-based solver
+        """
+    @epsilon.setter
+    def epsilon(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def gamma(self) -> float:
+        """
+        Polytropic exponent used in the gas's equation of state
+        """
+    @gamma.setter
+    def gamma(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def initial_temperature(self) -> float:
+        """
+        Temperature newly seeded particles start at. Changing this re-seeds the gas.
+        """
+    @initial_temperature.setter
+    def initial_temperature(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def max_dissipation_generations(self) -> int:
+        """
+        How many times wisps may themselves split into further wisps. 0 means only original particles split. Clamped to >= 0.
+        """
+    @max_dissipation_generations.setter
+    def max_dissipation_generations(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def max_dissipation_speed(self) -> float:
+        """
+        Speed cap applied to particles while they drift outward from dissipation. Clamped to >= 0.
+        """
+    @max_dissipation_speed.setter
+    def max_dissipation_speed(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def metaball_edge_soft(self) -> float:
+        """
+        Softness of the metaball surface edge falloff
+        """
+    @metaball_edge_soft.setter
+    def metaball_edge_soft(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def metaball_threshold(self) -> float:
+        """
+        Density threshold at which the metaball surface renderer considers the gas 'present'
+        """
+    @metaball_threshold.setter
+    def metaball_threshold(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def min_radius(self) -> float:
+        """
+        Radius scale (0-1, relative to full size) below which a dissipating particle is removed. Clamped to a small positive minimum.
+        """
+    @min_radius.setter
+    def min_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def noise_scale(self) -> float:
+        """
+        Spatial scale of the procedural noise applied to the gas surface
+        """
+    @noise_scale.setter
+    def noise_scale(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def noise_strength(self) -> float:
+        """
+        Strength of the procedural noise applied to the gas surface
+        """
+    @noise_strength.setter
+    def noise_strength(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def outline_color(self) -> Vector4:
+        """
+        Edge color (RGBA, 0-1) blended in at the metaball surface's edge
+        """
+    @outline_color.setter
+    def outline_color(self, arg1: Vector4) -> None:
+        ...
+    @property
+    def outline_width_texels(self) -> float:
+        """
+        Width of the rendered outline, in texels
+        """
+    @outline_width_texels.setter
+    def outline_width_texels(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def owner(self) -> Object:
+        """
+        The Object that owns this component
+        """
+    @property
+    def particle_count(self) -> int:
+        """
+        Number of particles currently in this gas
+        """
+    @property
+    def particle_mass(self) -> float:
+        """
+        Mass of each individual particle. Values <= 0 are clamped to 0.01.
+        """
+    @particle_mass.setter
+    def particle_mass(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def particle_radius(self) -> float:
+        """
+        Visual radius of each rendered gas particle's splat quad. Clamped to a small positive minimum.
+        """
+    @particle_radius.setter
+    def particle_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def particles(self) -> list[GasParticle]:
+        """
+        All GasParticle instances currently owned by this component, including visual-only wisps spawned by dissipation (check GasParticle.is_visual_only)
+        """
+    @property
+    def rest_density(self) -> float:
+        """
+        Target ambient density the gas solver tries to maintain per particle
+        """
+    @rest_density.setter
+    def rest_density(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def rise_speed(self) -> float:
+        """
+        Speed at which the surface noise animates upward, giving a rising-smoke look
+        """
+    @rise_speed.setter
+    def rise_speed(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def smoothing_radius(self) -> float:
+        """
+        SPH smoothing (kernel) radius used for density/pressure calculations
+        """
+    @smoothing_radius.setter
+    def smoothing_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def stiffness(self) -> float:
+        """
+        Equation-of-state stiffness: how strongly the gas resists compression
+        """
+    @stiffness.setter
+    def stiffness(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def thermal_diffusivity(self) -> float:
+        """
+        How quickly heat diffuses between neighboring particles
+        """
+    @thermal_diffusivity.setter
+    def thermal_diffusivity(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def viscosity(self) -> float:
+        """
+        How resistant the gas is to flowing/shearing
+        """
+    @viscosity.setter
+    def viscosity(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def vorticity_strength(self) -> float:
+        """
+        Strength of vorticity confinement, restoring small-scale swirling motion. Clamped to >= 0.
+        """
+    @vorticity_strength.setter
+    def vorticity_strength(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def wisp_count_per_split(self) -> int:
+        """
+        Number of wisps spawned each time a particle splits. Clamped to >= 0.
+        """
+    @wisp_count_per_split.setter
+    def wisp_count_per_split(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def wisp_split_threshold(self) -> float:
+        """
+        Radius scale (0-1) at or below which a dissipating particle spawns its wisps. Clamped to [0, 1].
+        """
+    @wisp_split_threshold.setter
+    def wisp_split_threshold(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+class GasParticle:
+    """
+    A single SPH particle owned by a GasComponent.
+    """
+    def __repr__(self) -> str:
+        ...
+    def set_ambient_temperature(self, ambient_temperature: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set ambient_temperature. See the ambient_temperature property.
+        """
+    def set_can_dissipate(self, can_dissipate: bool) -> None:
+        """
+        Set can_dissipate. See the can_dissipate property.
+        """
+    def set_collision_radius(self, collision_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set collision_radius. See the collision_radius property.
+        """
+    def set_compliance(self, compliance: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set compliance. See the compliance property.
+        """
+    def set_cooling_rate(self, cooling_rate: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set cooling_rate. See the cooling_rate property.
+        """
+    def set_drift_dir(self, drift_dir: Vector3) -> None:
+        """
+        Set drift_dir. See the drift_dir property.
+        """
+    def set_epsilon(self, epsilon: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set epsilon. See the epsilon property.
+        """
+    def set_gamma(self, gamma: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set gamma. See the gamma property.
+        """
+    def set_has_split(self, has_split: bool) -> None:
+        """
+        Set has_split. See the has_split property.
+        """
+    def set_inverse_mass(self, inverse_mass: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set inverse_mass. See the inverse_mass property.
+        """
+    def set_mass(self, mass: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set mass. See the mass property.
+        """
+    def set_position(self, position: Vector3) -> None:
+        """
+        Set position. See the position property.
+        """
+    def set_radius_scale(self, radius_scale: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set radius_scale. See the radius_scale property.
+        """
+    def set_rest_density(self, rest_density: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set rest_density. See the rest_density property.
+        """
+    def set_smoothing_radius(self, smoothing_radius: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set smoothing_radius. See the smoothing_radius property.
+        """
+    def set_stiffness(self, stiffness: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set stiffness. See the stiffness property.
+        """
+    def set_temperature(self, temperature: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set temperature. See the temperature property.
+        """
+    def set_thermal_diffusivity(self, thermal_diffusivity: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set thermal_diffusivity. See the thermal_diffusivity property.
+        """
+    def set_velocity(self, velocity: Vector3) -> None:
+        """
+        Set velocity. See the velocity property.
+        """
+    def set_viscosity(self, viscosity: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set viscosity. See the viscosity property.
+        """
+    def set_vorticity_strength(self, vorticity_strength: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set vorticity_strength. See the vorticity_strength property.
+        """
+    @property
+    def ambient_temperature(self) -> float:
+        """
+        Temperature this particle cools/warms toward, overriding GasComponent.ambient_temperature
+        """
+    @ambient_temperature.setter
+    def ambient_temperature(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def can_dissipate(self) -> bool:
+        """
+        Whether this individual particle shrinks and fades over time, overriding GasComponent.can_dissipate
+        """
+    @can_dissipate.setter
+    def can_dissipate(self, arg1: bool) -> None:
+        ...
+    @property
+    def collision_radius(self) -> float:
+        """
+        Physical collision radius of this individual particle
+        """
+    @collision_radius.setter
+    def collision_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def compliance(self) -> float:
+        """
+        Constraint compliance (inverse stiffness) for this individual particle
+        """
+    @compliance.setter
+    def compliance(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def cooling_rate(self) -> float:
+        """
+        Cooling rate for this individual particle, overriding GasComponent.cooling_rate
+        """
+    @cooling_rate.setter
+    def cooling_rate(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def density(self) -> float:
+        """
+        Density computed by the solver this substep (read-only)
+        """
+    @property
+    def dissipation_generation(self) -> int:
+        """
+        How many wisp splits deep this particle is (0 = original particle)
+        """
+    @property
+    def drift_dir(self) -> Vector3:
+        """
+        Direction this particle drifts in while dissipating (unit vector, randomized on seed)
+        """
+    @drift_dir.setter
+    def drift_dir(self, arg1: Vector3) -> None:
+        ...
+    @property
+    def epsilon(self) -> float:
+        """
+        Relaxation parameter (CFM) for this individual particle, overriding GasComponent.epsilon
+        """
+    @epsilon.setter
+    def epsilon(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def gamma(self) -> float:
+        """
+        Polytropic exponent for this individual particle, overriding GasComponent.gamma
+        """
+    @gamma.setter
+    def gamma(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def has_split(self) -> bool:
+        """
+        Whether this particle has already spawned its dissipation wisps. Set to True to prevent it from splitting.
+        """
+    @has_split.setter
+    def has_split(self, arg1: bool) -> None:
+        ...
+    @property
+    def inverse_mass(self) -> float:
+        """
+        1/mass of this individual particle
+        """
+    @inverse_mass.setter
+    def inverse_mass(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def is_visual_only(self) -> bool:
+        """
+        True for wisps spawned by dissipation: they are rendered and drift, but aren't part of the physics solver
+        """
+    @property
+    def lambda_(self) -> float:
+        """
+        Constraint multiplier from the solver's last substep (read-only)
+        """
+    exec('lambda = lambda_')
+
+    @property
+    def mass(self) -> float:
+        """
+        Mass of this individual particle. Values <= 0 are clamped to 0.001.
+        """
+    @mass.setter
+    def mass(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def owner(self) -> Object:
+        """
+        The Object whose GasComponent owns this particle
+        """
+    @property
+    def position(self) -> Vector3:
+        """
+        World-space position of this particle. Setting this also resets predicted_position, teleporting the particle immediately.
+        """
+    @position.setter
+    def position(self, arg1: Vector3) -> None:
+        ...
+    @property
+    def predicted_position(self) -> Vector3:
+        """
+        Position predicted by the solver this substep (read-only)
+        """
+    @property
+    def radius_scale(self) -> float:
+        """
+        Current size multiplier (1 = full size). Decays toward 0 while dissipating; the particle is removed once it drops below GasComponent.min_radius.
+        """
+    @radius_scale.setter
+    def radius_scale(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def rest_density(self) -> float:
+        """
+        Target ambient density for this individual particle, overriding GasComponent.rest_density
+        """
+    @rest_density.setter
+    def rest_density(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def smoothing_radius(self) -> float:
+        """
+        SPH smoothing radius for this individual particle, overriding GasComponent.smoothing_radius
+        """
+    @smoothing_radius.setter
+    def smoothing_radius(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def stiffness(self) -> float:
+        """
+        Equation-of-state stiffness for this individual particle, overriding GasComponent.stiffness
+        """
+    @stiffness.setter
+    def stiffness(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def temperature(self) -> float:
+        """
+        Current temperature of this individual particle
+        """
+    @temperature.setter
+    def temperature(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def thermal_diffusivity(self) -> float:
+        """
+        Heat diffusion rate for this individual particle, overriding GasComponent.thermal_diffusivity
+        """
+    @thermal_diffusivity.setter
+    def thermal_diffusivity(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def velocity(self) -> Vector3:
+        """
+        Linear velocity of this particle
+        """
+    @velocity.setter
+    def velocity(self, arg1: Vector3) -> None:
+        ...
+    @property
+    def viscosity(self) -> float:
+        """
+        Viscosity for this individual particle, overriding GasComponent.viscosity
+        """
+    @viscosity.setter
+    def viscosity(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def vorticity_strength(self) -> float:
+        """
+        Vorticity confinement strength for this individual particle, overriding GasComponent.vorticity_strength
+        """
+    @vorticity_strength.setter
+    def vorticity_strength(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
 class Input:
     @staticmethod
     def is_key_just_pressed(key: typing.SupportsInt | typing.SupportsIndex) -> bool:
@@ -1649,6 +2574,48 @@ class Input:
         """
         Unregister a callback previously registered with on_mouse_button_released()
         """
+class MotorMode:
+    """
+    Drive mode of a RevoluteConstraint's motor
+    
+    Members:
+    
+      Off : No motor; the joint rotates freely (subject to limits)
+    
+      Velocity : Drive the joint at a constant relative angular velocity
+    
+      Position : Servo the joint toward a target angle
+    """
+    Off: typing.ClassVar[MotorMode]  # value = <MotorMode.Off: 0>
+    Position: typing.ClassVar[MotorMode]  # value = <MotorMode.Position: 2>
+    Velocity: typing.ClassVar[MotorMode]  # value = <MotorMode.Velocity: 1>
+    __members__: typing.ClassVar[dict[str, MotorMode]]  # value = {'Off': <MotorMode.Off: 0>, 'Velocity': <MotorMode.Velocity: 1>, 'Position': <MotorMode.Position: 2>}
+    def __eq__(self, other: typing.Any) -> bool:
+        ...
+    def __getstate__(self) -> int:
+        ...
+    def __hash__(self) -> int:
+        ...
+    def __index__(self) -> int:
+        ...
+    def __init__(self, value: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __int__(self) -> int:
+        ...
+    def __ne__(self, other: typing.Any) -> bool:
+        ...
+    def __repr__(self) -> str:
+        ...
+    def __setstate__(self, state: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    def __str__(self) -> str:
+        ...
+    @property
+    def name(self) -> str:
+        ...
+    @property
+    def value(self) -> int:
+        ...
 class Object:
     def __init__(self) -> None:
         """
@@ -2103,6 +3070,154 @@ class RevoluteConstraint(Constraint):
         """
         Create a revolute constraint pinned at explicit local-space attach points on each object.
         """
+    def disable_limits(self) -> None:
+        """
+        Disable the joint angle limits
+        """
+    def disable_motor(self) -> None:
+        """
+        Turn the motor off (sets motor_mode to MotorMode.Off)
+        """
+    def set_limits(self, lower: typing.SupportsFloat | typing.SupportsIndex, upper: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Enable limits and set both bounds (radians) in one call.
+        
+        Example:
+            ```python
+            door_hinge.set_limits(0.0, 1.57)
+            ```
+        """
+    def set_limits_enabled(self, limits_enabled: bool) -> None:
+        """
+        Set limits_enabled. See the limits_enabled property.
+        """
+    def set_lower_limit(self, lower_limit: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set lower_limit. See the lower_limit property.
+        """
+    def set_max_motor_speed(self, max_motor_speed: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set max_motor_speed. See the max_motor_speed property.
+        """
+    def set_max_motor_torque(self, max_motor_torque: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set max_motor_torque. See the max_motor_torque property.
+        """
+    def set_motor_mode(self, mode: MotorMode) -> None:
+        """
+        Set motor_mode. See the motor_mode property.
+        """
+    def set_motor_speed(self, motor_speed: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set motor_speed. See the motor_speed property.
+        """
+    def set_position_motor(self, target_angle: typing.SupportsFloat | typing.SupportsIndex, gain: typing.SupportsFloat | typing.SupportsIndex, max_speed: typing.SupportsFloat | typing.SupportsIndex, max_torque: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Enable the motor in position (servo) mode in one call.
+        
+        Example:
+            ```python
+            arm_joint.set_position_motor(1.57, 10.0, 5.0, 50.0)
+            ```
+        """
+    def set_servo_gain(self, servo_gain: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set servo_gain. See the servo_gain property.
+        """
+    def set_target_angle(self, target_angle: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set target_angle. See the target_angle property.
+        """
+    def set_upper_limit(self, upper_limit: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Set upper_limit. See the upper_limit property.
+        """
+    def set_velocity_motor(self, speed: typing.SupportsFloat | typing.SupportsIndex, max_torque: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Enable the motor in velocity mode in one call.
+        
+        Example:
+            ```python
+            wheel_joint.set_velocity_motor(6.28, 100.0)  # one rev/sec
+            ```
+        """
+    @property
+    def angle(self) -> float:
+        """
+        Current joint angle in radians, relative to the pose when tracking began, unwrapped (can exceed ±pi). Only tracked while a motor or limits are enabled; stays 0 until the first solver step after enabling either.
+        """
+    @property
+    def limits_enabled(self) -> bool:
+        """
+        Whether the joint angle is restricted to [lower_limit, upper_limit]
+        """
+    @limits_enabled.setter
+    def limits_enabled(self, arg1: bool) -> None:
+        ...
+    @property
+    def lower_limit(self) -> float:
+        """
+        Lower joint angle limit in radians, relative to the starting pose. Raising it above upper_limit pushes upper_limit up with it.
+        """
+    @lower_limit.setter
+    def lower_limit(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def max_motor_speed(self) -> float:
+        """
+        Maximum angular speed (radians per second) the position motor will drive at. Clamped to >= 0.
+        """
+    @max_motor_speed.setter
+    def max_motor_speed(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def max_motor_torque(self) -> float:
+        """
+        Maximum torque the motor may apply (either mode). Clamped to >= 0.
+        """
+    @max_motor_torque.setter
+    def max_motor_torque(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def motor_mode(self) -> MotorMode:
+        """
+        Current MotorMode (Off, Velocity, or Position)
+        """
+    @motor_mode.setter
+    def motor_mode(self, arg1: MotorMode) -> None:
+        ...
+    @property
+    def motor_speed(self) -> float:
+        """
+        Target relative angular velocity in radians per second. Only used when motor_mode is MotorMode.Velocity.
+        """
+    @motor_speed.setter
+    def motor_speed(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def servo_gain(self) -> float:
+        """
+        Position-motor gain in 1/s: desired speed = gain * angle error, capped by max_motor_speed. Clamped to >= 0.
+        """
+    @servo_gain.setter
+    def servo_gain(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def target_angle(self) -> float:
+        """
+        Target joint angle in radians, relative to the pose the joint had when its angle tracking started (see angle). Only used when motor_mode is MotorMode.Position.
+        """
+    @target_angle.setter
+    def target_angle(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def upper_limit(self) -> float:
+        """
+        Upper joint angle limit in radians, relative to the starting pose. Lowering it below lower_limit pulls lower_limit down with it.
+        """
+    @upper_limit.setter
+    def upper_limit(self, arg1: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
 class RigidBodyComponent:
     def add_child(self, obj: Object) -> Object:
         """
@@ -3127,6 +4242,8 @@ def load_scene(path: str) -> None:
     """
 FluidVsRigid: CollisionType  # value = <CollisionType.FluidVsRigid: 5>
 FluidVsSoft: CollisionType  # value = <CollisionType.FluidVsSoft: 6>
+GasVsRigid: CollisionType  # value = <CollisionType.GasVsRigid: 7>
+GasVsSoft: CollisionType  # value = <CollisionType.GasVsSoft: 8>
 RigidVsRigid: CollisionType  # value = <CollisionType.RigidVsRigid: 0>
 RigidVsSoft: CollisionType  # value = <CollisionType.RigidVsSoft: 3>
 RigidVsStatic: CollisionType  # value = <CollisionType.RigidVsStatic: 1>

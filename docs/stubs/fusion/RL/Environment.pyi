@@ -16,7 +16,7 @@ from stable_baselines3.ppo.ppo import PPO
 from stable_baselines3.sac.sac import SAC
 from stable_baselines3.td3.td3 import TD3
 import typing
-__all__: list[str] = ['A2C', 'DDPG', 'DummyVecEnv', 'PPO', 'SAC', 'TD3', 'clear_cache', 'fusion', 'get_action_space', 'get_observation_space', 'get_snapshot', 'gym', 'is_training', 'load_model', 'np', 'os', 'predict', 'reset', 'step']
+__all__: list[str] = ['A2C', 'DDPG', 'DummyVecEnv', 'PPO', 'SAC', 'TD3', 'clear_cache', 'fusion', 'get_action_space', 'get_num_agents', 'get_observation_space', 'get_snapshot', 'gym', 'is_training', 'load_model', 'np', 'os', 'predict', 'reset', 'step']
 class _LoadedModel:
     __slots__: typing.ClassVar[tuple] = ('model', 'vecnorm', 'mtime')
     def __init__(self, model, vecnorm, mtime):
@@ -45,11 +45,15 @@ def clear_cache():
     ...
 def get_action_space() -> typing.Any:
     """
-    Returns the gymnasium.spaces.Space configured via AgentComponent.set_action_space() on the scene's first AgentComponent.
+    Returns the gymnasium.spaces.Space configured via AgentComponent.set_action_space() on the scene's first AgentComponent, ordered by agent_id. All agents must share the same action space configuration.
+    """
+def get_num_agents() -> int:
+    """
+    Number of active AgentComponents in the scene. When >1, every agent shares the single policy passed to train() (self-play).
     """
 def get_observation_space() -> typing.Any:
     """
-    Returns the gymnasium.spaces.Space configured via AgentComponent.set_observation_space(), or None if unset (in which case a default Box inferred from observation length is used).
+    Returns the gymnasium.spaces.Space configured via AgentComponent.set_observation_space() on the scene's first AgentComponent, or None if unset (in which case a default Box inferred from observation length is used).
     """
 def get_snapshot(width: typing.SupportsInt | typing.SupportsIndex = 128, height: typing.SupportsInt | typing.SupportsIndex = 128) -> numpy.typing.NDArray[numpy.uint8]:
     """
@@ -67,11 +71,11 @@ def predict(loaded, observation, deterministic = True):
     ...
 def reset() -> list:
     """
-    Reload the editing scene, run one priming tick, and return the initial observation.
+    Reload the training scene and return a list of initial observations, one per agent.
     """
-def step(action: typing.Any) -> tuple[list, float, bool]:
+def step(actions: list) -> tuple[list, list, list]:
     """
-    Advance the simulation by one physics tick with the given action applied (type must match the configured action_space), returning (observation, reward, done).
+    Advance the simulation by one physics tick. actions must have one entry per AgentComponent in the scene (ordered by agent_id). Returns (obs_list, reward_list, done_list), one entry per agent.
     """
 _model_cache: dict = {}
 is_training: bool = False

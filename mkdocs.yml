@@ -36,9 +36,11 @@ nav:
           - CollisionComponent: api/collision-component.md
           - SoftBodyComponent: api/softbody-component.md
           - FluidComponent: api/fluid-component.md
+          - GasComponent: api/gas-component.md
           - ConstraintComponent: api/constraint-component.md
           - FractureComponent: api/fracture-component.md
           - CameraComponent: api/camera-component.md
+          - AudioComponent: api/audio-component.md
           - AgentComponent (RL): api/agent-component.md
       - Physics & Constraints: api/physics.md
       - Input: api/input.md
