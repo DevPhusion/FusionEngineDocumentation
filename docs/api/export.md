@@ -7,6 +7,9 @@
 ::: fusion.export_color_edit
 ::: fusion.export_color_picker
 ::: fusion.export_file
+::: fusion.export_folder
+::: fusion.export_image
+::: fusion.export_audio
 ::: fusion.export_scene
 ::: fusion.export_section
 ::: fusion.export_sub_section

@@ -10,7 +10,7 @@ from . import Mouse
 from . import Physics
 from . import RL
 from . import Render
-__all__: list[str] = ['AgentComponent', 'AudioComponent', 'CameraComponent', 'CircleShape', 'CollisionComponent', 'CollisionEventData', 'CollisionLayer', 'CollisionMask', 'CollisionType', 'Console', 'Constraint', 'ConstraintComponent', 'DistanceConstraint', 'File', 'FluidComponent', 'FluidParticle', 'FluidVsRigid', 'FluidVsSoft', 'FractureComponent', 'GasComponent', 'GasParticle', 'GasVsRigid', 'GasVsSoft', 'Input', 'Key', 'MotorMode', 'Mouse', 'Object', 'Physics', 'PointMass', 'PolygonShape', 'PrismaticConstraint', 'RL', 'RayCastHit', 'RectangleShape', 'Render', 'RenderComponent', 'RevoluteConstraint', 'RigidBodyComponent', 'RigidVsRigid', 'RigidVsSoft', 'RigidVsStatic', 'Script', 'SoftBodyComponent', 'SoftVsSoft', 'SpringConstraint', 'StaticVsStatic', 'TransformComponent', 'Vector2', 'Vector3', 'Vector4', 'WeldConstraint', 'add_scene', 'export', 'export_angle_slider', 'export_color_edit', 'export_color_picker', 'export_drag', 'export_file', 'export_range', 'export_scene', 'export_section', 'export_sub_section', 'find_objects_with_component', 'get_all_objects', 'get_script', 'layer_overlap', 'lerp', 'load_scene']
+__all__: list[str] = ['AgentComponent', 'AudioComponent', 'CameraComponent', 'CircleShape', 'CollisionComponent', 'CollisionEventData', 'CollisionLayer', 'CollisionMask', 'CollisionType', 'Console', 'Constraint', 'ConstraintComponent', 'DistanceConstraint', 'File', 'FluidComponent', 'FluidParticle', 'FluidVsRigid', 'FluidVsSoft', 'FractureComponent', 'GasComponent', 'GasParticle', 'GasVsRigid', 'GasVsSoft', 'Input', 'Key', 'MotorMode', 'Mouse', 'Object', 'Physics', 'PointMass', 'PolygonShape', 'PrismaticConstraint', 'RL', 'RayCastHit', 'RectangleShape', 'Render', 'RenderComponent', 'RevoluteConstraint', 'RigidBodyComponent', 'RigidVsRigid', 'RigidVsSoft', 'RigidVsStatic', 'Script', 'SoftBodyComponent', 'SoftVsSoft', 'SpringConstraint', 'StaticVsStatic', 'TransformComponent', 'Vector2', 'Vector3', 'Vector4', 'WeldConstraint', 'add_scene', 'export', 'export_angle_slider', 'export_audio', 'export_color_edit', 'export_color_picker', 'export_drag', 'export_file', 'export_folder', 'export_image', 'export_range', 'export_scene', 'export_section', 'export_sub_section', 'find_objects_with_component', 'get_all_objects', 'get_script', 'layer_overlap', 'lerp', 'load_scene']
 class AgentComponent:
     def add_child(self, obj: Object) -> Object:
         """
@@ -1487,8 +1487,6 @@ class FluidParticle:
         """
         Constraint multiplier from the solver's last substep (read-only)
         """
-        ...
-    exec('lambda = lambda_')
     @property
     def mass(self) -> float:
         """
@@ -2738,10 +2736,6 @@ class PointMass:
         """
         Get world_pos. See the world_pos property.
         """
-    def set_base_acceleration(self, base_acceleration: Vector3) -> None:
-        """
-        Set base_acceleration. See the base_acceleration property.
-        """
     def set_inverse_mass(self, inverse_mass: typing.SupportsFloat | typing.SupportsIndex) -> None:
         """
         Set inverse_mass. See the inverse_mass property.
@@ -2767,19 +2761,6 @@ class PointMass:
         """
         Total acceleration this frame (gravity/base + accumulated forces)
         """
-    @property
-    def base_acceleration(self) -> Vector3:
-        """
-        Persistent acceleration such as gravity.
-        
-        Example:
-            ```python
-            Vector3(0, -9.8, 0)
-            ```
-        """
-    @base_acceleration.setter
-    def base_acceleration(self, arg1: Vector3) -> None:
-        ...
     @property
     def index(self) -> int:
         """
@@ -4123,6 +4104,15 @@ def export_angle_slider(value: typing.Any, min_degrees: typing.SupportsFloat | t
         cone_angle = export_angle_slider(0.5, 0.0, 180.0)
         ```
     """
+def export_audio(value: typing.Any) -> _ExportMarker:
+    """
+    Mark a str script attribute as editable with an audio picker that stores a res:// virtual path. Shows a player with a waveform and accepts .wav/.mp3.
+    
+    Example:
+        ```python
+        jump_sound = export_audio("res://sfx/jump.mp3")
+        ```
+    """
 def export_color_edit(value: typing.Any) -> _ExportMarker:
     """
     Mark a Vector3 or Vector4 script attribute as editable with a color swatch that opens a picker popup.
@@ -4158,6 +4148,24 @@ def export_file(value: typing.Any, extension: str = '*.*') -> _ExportMarker:
     Example:
         ```python
         icon = export_file("", "*.png;*.jpg;*.jpeg")
+        ```
+    """
+def export_folder(value: typing.Any) -> _ExportMarker:
+    """
+    Mark a str script attribute as editable with a folder picker that stores a res:// virtual path. Folders can be chosen by browsing or by dragging from the resource browser.
+    
+    Example:
+        ```python
+        level_dir = export_folder("res://levels")
+        ```
+    """
+def export_image(value: typing.Any) -> _ExportMarker:
+    """
+    Mark a str script attribute as editable with an image picker that stores a res:// virtual path. Shows a thumbnail preview and accepts .png/.jpg/.jpeg, by browsing or dragging from the resource browser.
+    
+    Example:
+        ```python
+        sprite = export_image("res://textures/hero.png")
         ```
     """
 def export_range(value: typing.Any, min: typing.SupportsFloat | typing.SupportsIndex = ..., max: typing.SupportsFloat | typing.SupportsIndex = ..., slider: bool = False, prefix: str = '', suffix: str = '') -> _ExportMarker:
