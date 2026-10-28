@@ -5,7 +5,14 @@ repo_url: https://github.com/DevPhusion/FusionEngine
 repo_name: DevPhusion/FusionEngine
 
 docs_dir: docs
+exclude_docs: |
+  stubs/
 
+extra:
+  version:
+    provider: mike
+    default: latest   
+    alias: true 
 theme:
   name: material
   palette:
